@@ -8,14 +8,17 @@ const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 1000
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
+  const [isMailSent, setIsMailSent] = useState(false);
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
       setSending(true);
+      
       // We try to call mockContactApi
       try {
         await mockContactApi();
         setSending(false);
+        setIsMailSent(true);
       } catch (err) {
         setSending(false);
         onError(err);
@@ -49,7 +52,10 @@ const Form = ({ onSuccess, onError }) => {
           />
         </div>
       </div>
+    {isMailSent && <div className="success-message">Mail envoyé avec succès!</div>}
+
     </form>
+    
   );
 };
 

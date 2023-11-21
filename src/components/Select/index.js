@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from "react";
 import PropTypes from "prop-types";
+import uuid from "react-uuid";
 
 import "./style.scss";
 
@@ -37,7 +38,7 @@ const Select = ({
                 </li>
               )}
               {selection.map((s) => (
-                <li key={s} onClick={() => changeValue(s)}>
+                <li key={uuid()} onClick={() => changeValue(s)}>
                   <input
                     defaultChecked={value === s}
                     name="selected"

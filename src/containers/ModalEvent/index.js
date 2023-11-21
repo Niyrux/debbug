@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import uuid from 'react-uuid';
 
 import "./style.scss";
 
@@ -26,8 +27,10 @@ const ModalEvent = ({ event }) => (
       <div className="ModalEvent__descriptionContainer">
         <h3>Prestations</h3>
         {event.prestations.map((presta) => (
-          <div key={presta}>{presta}</div>
+          <div key={uuid()}>{presta}</div>
         ))}
+                 
+
       </div>
     </div>
   );
