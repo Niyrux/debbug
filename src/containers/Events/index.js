@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import EventCard from "../../components/EventCard";
 import Select from "../../components/Select";
 import { useData } from "../../contexts/DataContext";
@@ -13,25 +13,22 @@ const EventList = () => {
   const { data, error } = useData();
   const [type, setType] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const filteredEvents = (
-    (!type
-      ? data?.events
-      : data?.events) || []
-  ).filter((event, index) => {
-    if (
-      (currentPage - 1) * PER_PAGE <= index &&
-      PER_PAGE * currentPage > index
-    ) {
-      return true;
+ 
+ 
+ useEffect(() => {
+    if (data) {
+      setType(null); 
     }
-    return false;
-  });
- const changeType = (evtType) => {
-  setCurrentPage(1);
-  setType(evtType);
-};
+  }, [data]);
 
-  
+  const filteredEvents = (data?.events || [])
+    .filter((event) => type === null || event.type === type)
+    .slice((currentPage - 1) * PER_PAGE, PER_PAGE * currentPage) || [];
+
+  const changeType = (evtType) => {
+    setCurrentPage(1);
+    setType(evtType);
+  };
   const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
   const typeList = new Set(data?.events.map((event) => event.type));
   return (
@@ -46,8 +43,7 @@ const EventList = () => {
           <Select
             
             selection={Array.from(typeList)}
-            onChange={(value) => (value ? changeType(value) : changeType(null))}
-            
+            onChange={(value) => changeType(value)}
           />
           <div id="events" className="ListContainer">
             {filteredEvents.map((event) => (

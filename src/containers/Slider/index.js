@@ -12,6 +12,9 @@ const Slider = () => {
   const byDateDesc = data?.focus?.sort((evtA, evtB) =>
     new Date(evtA.date) < new Date(evtB.date) ? 1 : -1
   );
+
+
+
   const nextCard = () => {
     setIndex((prevIndex) => (prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0));
   };
@@ -22,7 +25,7 @@ const Slider = () => {
     }, 5000);
 
     return () => clearInterval(intervalId);
-  }, [byDateDesc?.length]);
+  } );
  
   return (
     <div className="SlideCardList">
